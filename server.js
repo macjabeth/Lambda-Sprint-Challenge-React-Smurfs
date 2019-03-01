@@ -1,6 +1,6 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
 const port = 3333;
 
 const server = express();
@@ -21,23 +21,21 @@ let smurfs = [
     height: '8cm'
   }
 ];
-server.get('/smurfs', (req, res) => {
-  res.json(smurfs);
-});
+
+server.get('/smurfs', (req, { json }) => json(smurfs);
+
 let smurfId = 1;
 
-server.post('/smurfs', (req, res) => {
-  const { name, age, height } = req.body;
-  const newSmurf = { name, age, height, id: smurfId };
+server.post('/smurfs', ( { body: { name, age, height } }, res ) => {
   if (!name || !age || !height) {
     return sendUserError(
       'Ya gone did smurfed! Name/Age/Height are all required to create a smurf in the smurf DB.',
       res
     );
   }
-  const findSmurfByName = smurf => {
-    return smurf.name === name;
-  };
+
+  const findSmurfByName = smurf => smurf.name === name;
+
   if (smurfs.find(findSmurfByName)) {
     return sendUserError(
       `Ya gone did smurfed! ${name} already exists in the smurf DB.`,
@@ -45,18 +43,16 @@ server.post('/smurfs', (req, res) => {
     );
   }
 
-  smurfs.push(newSmurf);
+  smurfs.push({ name, age, height, id: smurfId });
   smurfId++;
+
   res.json(smurfs);
 });
 
-server.put('/smurfs/:id', (req, res) => {
-  const { id } = req.params;
-  const { name, age, height } = req.body;
-  const findSmurfById = smurf => {
-    return smurf.id == id;
-  };
+server.put('/smurfs/:id', ( { params: { id }, body: { name, age, height } }, res ) => {
+  const findSmurfById = smurf => smurf.id == id;
   const foundSmurf = smurfs.find(findSmurfById);
+
   if (!foundSmurf) {
     return sendUserError('No Smurf found by that ID', res);
   } else {
@@ -67,8 +63,7 @@ server.put('/smurfs/:id', (req, res) => {
   }
 });
 
-server.delete('/smurfs/:id', (req, res) => {
-  const { id } = req.params;
+server.delete('/smurfs/:id', ( { params: { id } }, res ) => {
   const foundSmurf = smurfs.find(smurf => smurf.id == id);
 
   if (foundSmurf) {
