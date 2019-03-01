@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
+import { lighten } from 'polished';
 import axios from 'axios';
 
 const initialSmurf = { name: '', age: '', height: '' };
@@ -47,31 +49,61 @@ class SmurfForm extends Component {
     const { name, age, height } = this.state.smurf;
     return (
       <div>
-        <h3>It's Smurfin' Time</h3>
-        <form onSubmit={this.addSmurf}>
-          <input
+        <FormTitle>It's Smurfin' Time</FormTitle>
+        <Form onSubmit={this.addSmurf}>
+          <Input
             onChange={this.handleInputChange}
             placeholder="name"
             value={name}
             name="name"
           />
-          <input
+          <Input
             onChange={this.handleInputChange}
             placeholder="age"
             value={age}
             name="age"
           />
-          <input
+          <Input
             onChange={this.handleInputChange}
             placeholder="height"
             value={height}
             name="height"
           />
-          <button type="submit">Add to the village</button>
-        </form>
+        </Form>
       </div>
     );
   }
 }
+
+const FormTitle = styled.h3`
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: center;
+  color: #002a32;
+  padding-top: 3rem;
+`;
+
+const Form = styled.form`
+  width: 35rem;
+  margin: 3rem auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Input = styled.input`
+  margin-bottom: 1rem;
+  height: 4rem;
+  width: 100%;
+  border: 2px solid midnightblue;
+  border-radius: 0.5rem;
+  font-size: 1.5rem;
+  background-color: ${lighten(0.2, '#75abbc')};
+  color: #002a32;
+
+  &::placeholder {
+    text-align: center;
+  }
+`;
 
 export default SmurfForm;
