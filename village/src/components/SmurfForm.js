@@ -7,19 +7,36 @@ class SmurfForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      smurf: initialSmurf
+      smurf: initialSmurf,
+      id: false
     };
+  }
+
+  componentDidMount() {
+    const { state } = this.props.location;
+    if (state) {
+      const [id, name, age, height] = state;
+      this.setState({ smurf: { name, age, height }, id });
+    }
   }
 
   addSmurf = event => {
     event.preventDefault();
 
-    axios
-      .post('http://penguin.linux.test:3333/smurfs', this.state.smurf)
+    const { id } = this.state,
+      editing = typeof id === 'number';
+
+    const url = editing
+      ? `http://penguin.linux.test:3333/smurfs/${id}`
+      : 'http://penguin.linux.test:3333/smurfs';
+
+    axios[editing ? 'put' : 'post'](url, this.state.smurf)
       .then(({ data }) => this.props.updateSmurfs(data))
       .catch(err => console.error(err));
 
     this.setState({ smurf: initialSmurf });
+
+    this.props.history.push('/');
   };
 
   handleInputChange = ({ target: { name, value } }) => {

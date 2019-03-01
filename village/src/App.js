@@ -42,8 +42,9 @@ class App extends Component {
         <Route
           exact
           path="/"
-          render={() => (
+          render={props => (
             <Smurfs
+              {...props}
               smurfs={this.state.smurfs}
               updateSmurfs={this.updateSmurfs}
             />
@@ -51,7 +52,9 @@ class App extends Component {
         />
         <Route
           path="/smurf-form"
-          render={() => <SmurfForm updateSmurfs={this.updateSmurfs} />}
+          render={props => (
+            <SmurfForm {...props} updateSmurfs={this.updateSmurfs} />
+          )}
         />
       </React.Fragment>
     );

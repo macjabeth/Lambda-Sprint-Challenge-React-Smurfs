@@ -2,20 +2,23 @@ import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
-const Smurf = props => {
-  const editSmurf = () => props.editSmurf(props);
+const Smurf = ({ updateSmurfs, id, name, age, height, history }) => {
+  const editSmurf = () => {
+    history.push('/smurf-form', [id, name, age, height]);
+  };
+
   const deleteSmurf = () => {
     axios
-      .delete(`http://penguin.linux.test:3333/smurfs/${props.id}`)
-      .then(({ data }) => props.updateSmurfs(data))
+      .delete(`http://penguin.linux.test:3333/smurfs/${id}`)
+      .then(({ data }) => updateSmurfs(data))
       .catch(err => console.error(err));
   };
 
   return (
     <SmurfWrapper>
-      <h3>{props.name}</h3>
-      <strong>{props.height} tall</strong>
-      <p>{props.age} smurf years old</p>
+      <h3>{name}</h3>
+      <strong>{height} tall</strong>
+      <p>{age} smurf years old</p>
       <Button onClick={editSmurf} bg="goldenrod">
         Edit
       </Button>

@@ -16,6 +16,7 @@ class Smurfs extends Component {
                 id={smurf.id}
                 age={smurf.age}
                 height={smurf.height}
+                history={this.props.history}
                 updateSmurfs={this.props.updateSmurfs}
               />
             );
