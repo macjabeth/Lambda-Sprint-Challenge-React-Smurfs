@@ -1,8 +1,8 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-const port = 3333;
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
+const port = 3333;
 const server = express();
 server.use(bodyParser.json());
 server.use(cors());
@@ -22,11 +22,13 @@ let smurfs = [
   }
 ];
 
-server.get('/smurfs', (req, { json }) => json(smurfs);
+server.get('/smurfs', (req, res) => {
+  res.json(smurfs);
+});
 
 let smurfId = 1;
 
-server.post('/smurfs', ( { body: { name, age, height } }, res ) => {
+server.post('/smurfs', ({ body: { name, age, height } }, res) => {
   if (!name || !age || !height) {
     return sendUserError(
       'Ya gone did smurfed! Name/Age/Height are all required to create a smurf in the smurf DB.',
@@ -49,21 +51,24 @@ server.post('/smurfs', ( { body: { name, age, height } }, res ) => {
   res.json(smurfs);
 });
 
-server.put('/smurfs/:id', ( { params: { id }, body: { name, age, height } }, res ) => {
-  const findSmurfById = smurf => smurf.id == id;
-  const foundSmurf = smurfs.find(findSmurfById);
+server.put(
+  '/smurfs/:id',
+  ({ params: { id }, body: { name, age, height } }, res) => {
+    const findSmurfById = smurf => smurf.id == id;
+    const foundSmurf = smurfs.find(findSmurfById);
 
-  if (!foundSmurf) {
-    return sendUserError('No Smurf found by that ID', res);
-  } else {
-    if (name) foundSmurf.name = name;
-    if (age) foundSmurf.age = age;
-    if (height) foundSmurf.height = height;
-    res.json(smurfs);
+    if (!foundSmurf) {
+      return sendUserError('No Smurf found by that ID', res);
+    } else {
+      if (name) foundSmurf.name = name;
+      if (age) foundSmurf.age = age;
+      if (height) foundSmurf.height = height;
+      res.json(smurfs);
+    }
   }
-});
+);
 
-server.delete('/smurfs/:id', ( { params: { id } }, res ) => {
+server.delete('/smurfs/:id', ({ params: { id } }, res) => {
   const foundSmurf = smurfs.find(smurf => smurf.id == id);
 
   if (foundSmurf) {
