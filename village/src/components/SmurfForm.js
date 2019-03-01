@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
-import { lighten } from 'polished';
+import styled, { css } from 'styled-components';
+import { darken, lighten } from 'polished';
 import axios from 'axios';
 
 const initialSmurf = { name: '', age: '', height: '' };
@@ -52,23 +52,27 @@ class SmurfForm extends Component {
         <FormTitle>It's Smurfin' Time</FormTitle>
         <Form onSubmit={this.addSmurf}>
           <Input
+            type="text"
             onChange={this.handleInputChange}
             placeholder="name"
             value={name}
             name="name"
           />
           <Input
+            type="number"
             onChange={this.handleInputChange}
             placeholder="age"
             value={age}
             name="age"
           />
           <Input
+            type="text"
             onChange={this.handleInputChange}
             placeholder="height"
             value={height}
             name="height"
           />
+          <Input type="submit" value="Add Smurf" />
         </Form>
       </div>
     );
@@ -92,14 +96,22 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
+  padding: 0.5rem;
   margin-bottom: 1rem;
   height: 4rem;
   width: 100%;
   border: 2px solid midnightblue;
   border-radius: 0.5rem;
   font-size: 1.5rem;
-  background-color: ${lighten(0.2, '#75abbc')};
-  color: #002a32;
+  background-color: ${({ type }) =>
+    (type === 'submit' ? darken : lighten)(0.2, '#75abbc')};
+  color: ${({ type }) =>
+    type === 'submit' ? lighten(0.8, '#002a32') : '#002a32'};
+  ${({ type }) =>
+    type === 'submit' &&
+    css`
+      font-variant: small-caps;
+    `}
 
   &::placeholder {
     text-align: center;
