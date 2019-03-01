@@ -7,20 +7,20 @@ class Smurfs extends Component {
   render() {
     return (
       <SmurfsContainer>
-        <Title>Smurf Village</Title>
-        <ul>
+        <SmurfsList>
           {this.props.smurfs.map(smurf => {
             return (
               <Smurf
+                key={smurf.id}
                 name={smurf.name}
                 id={smurf.id}
                 age={smurf.age}
                 height={smurf.height}
-                key={smurf.id}
+                updateSmurfs={this.props.updateSmurfs}
               />
             );
           })}
-        </ul>
+        </SmurfsList>
       </SmurfsContainer>
     );
   }
@@ -30,15 +30,16 @@ Smurf.defaultProps = {
   smurfs: []
 };
 
-const SmurfsContainer = styled.div``;
+const SmurfsContainer = styled.div`
+  padding: 1rem;
+`;
 
-const Title = styled.h1`
-  padding: 1.5rem 0.5rem;
-  text-transform: uppercase;
+const SmurfsList = styled.ul`
+  display: grid;
+  align-items: center;
   text-align: center;
-  font-size: 2em;
-  font-weight: bold;
-  font-family: 'Rubik', sans-serif;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 1rem;
 `;
 
 export default Smurfs;

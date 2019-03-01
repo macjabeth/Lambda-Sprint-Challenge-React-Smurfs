@@ -21,11 +21,8 @@ class App extends Component {
       .catch(err => console.error(err));
   }
 
-  addSmurf = smurf => {
-    axios
-      .post('http://penguin.linux.test:3333/smurfs', smurf)
-      .then(({ data }) => this.setState({ smurfs: data }))
-      .catch(err => console.error(err));
+  updateSmurfs = data => {
+    this.setState({ smurfs: data });
   };
 
   render() {
@@ -45,11 +42,16 @@ class App extends Component {
         <Route
           exact
           path="/"
-          render={() => <Smurfs smurfs={this.state.smurfs} />}
+          render={() => (
+            <Smurfs
+              smurfs={this.state.smurfs}
+              updateSmurfs={this.updateSmurfs}
+            />
+          )}
         />
         <Route
           path="/smurf-form"
-          render={() => <SmurfForm addSmurf={this.addSmurf} />}
+          render={() => <SmurfForm updateSmurfs={this.updateSmurfs} />}
         />
       </React.Fragment>
     );
@@ -72,7 +74,7 @@ const Header = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 5rem;
+  height: 7rem;
   background-color: #002a32;
 `;
 
