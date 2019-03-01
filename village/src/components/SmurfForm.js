@@ -1,50 +1,48 @@
 import React, { Component } from 'react';
 
+const initialSmurf = { name: '', age: '', height: '' };
+
 class SmurfForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      age: '',
-      height: ''
+      smurf: initialSmurf
     };
   }
 
   addSmurf = event => {
     event.preventDefault();
-    // add code to create the smurf using the api
 
-    this.setState({
-      name: '',
-      age: '',
-      height: ''
-    });
-  }
+    this.props.addSmurf(this.state.smurf);
 
-  handleInputChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({ smurf: initialSmurf });
+  };
+
+  handleInputChange = ({ target: { name, value } }) => {
+    this.setState(state => ({ smurf: { ...state.smurf, [name]: value } }));
   };
 
   render() {
+    const { name, age, height } = this.state.smurf;
     return (
       <div className="SmurfForm">
         <form onSubmit={this.addSmurf}>
           <input
             onChange={this.handleInputChange}
             placeholder="name"
-            value={this.state.name}
+            value={name}
             name="name"
           />
           <input
             onChange={this.handleInputChange}
             placeholder="age"
-            value={this.state.age}
+            value={age}
             name="age"
           />
           <input
             onChange={this.handleInputChange}
             placeholder="height"
-            value={this.state.height}
+            value={height}
             name="height"
           />
           <button type="submit">Add to the village</button>
