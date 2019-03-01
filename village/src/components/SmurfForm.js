@@ -25,7 +25,7 @@ class SmurfForm extends Component {
   render() {
     const { name, age, height } = this.state.smurf;
     return (
-      <div className="SmurfForm">
+      <div>
         <form onSubmit={this.addSmurf}>
           <input
             onChange={this.handleInputChange}

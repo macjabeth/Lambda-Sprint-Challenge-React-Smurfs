@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Route, NavLink } from 'react-router-dom';
+import styled, { createGlobalStyle } from 'styled-components';
 import axios from 'axios';
 
-import './App.css';
 import SmurfForm from './components/SmurfForm';
 import Smurfs from './components/Smurfs';
 
@@ -30,13 +30,17 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header>
-          <nav>
-            <NavLink to="/">Home</NavLink>
-            <NavLink to="/smurf-form">Add Smurf</NavLink>
-          </nav>
-        </header>
+      <React.Fragment>
+        <GlobalStyles />
+
+        <Header>
+          <NavBar>
+            <NavLink exact to="/">
+              Home
+            </NavLink>
+            <NavLink to="/smurf-form">Create</NavLink>
+          </NavBar>
+        </Header>
 
         <Route
           exact
@@ -47,9 +51,45 @@ class App extends Component {
           path="/smurf-form"
           render={() => <SmurfForm addSmurf={this.addSmurf} />}
         />
-      </div>
+      </React.Fragment>
     );
   }
 }
+
+const GlobalStyles = createGlobalStyle`
+  html {
+    font-size: 62.5%;
+  }
+
+  body {
+    font-size: 1.6rem;
+    background-color: #75ABBC;
+    color: #071013;
+  }
+`;
+
+const Header = styled.header`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5rem;
+  background-color: #002a32;
+`;
+
+const NavBar = styled.nav`
+  > a {
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: 'Rubik', sans-serif;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-left: 2rem;
+
+    &.active {
+      color: #00d6d6;
+    }
+  }
+`;
 
 export default App;
